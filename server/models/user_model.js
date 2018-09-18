@@ -12,6 +12,8 @@ var UserSchema = new mongoose.Schema({
   role: { type: String, default: 'user' },
   provider: { type: String, default: "local" },
   status: { type: Number, default: 1 },
+  resetPasswordToken: String,
+  resetPasswordExpires: Date,
   created_at: { type: Date, default: Date.now },
   update_at: { type: Date, default: Date.now }
 });
@@ -38,12 +40,12 @@ UserSchema.pre('save', function (next) {
 });
 
 // Comparing passwords, one in readable form, other in hashed form
-UserSchema.methods.comparePassword = function (passw, cb) {
+UserSchema.methods.comparePassword = function (passw, callback) {
   bcrypt.compare(passw, this.password, function (err, isMatch) {
     if (err) {
-      return cb(err, null);
+      return callback(err, null);
     } else {
-      return cb(null, isMatch);
+      return callback(null, isMatch);
     }
   });
 };

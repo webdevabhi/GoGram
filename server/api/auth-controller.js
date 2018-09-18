@@ -39,7 +39,6 @@ function login(req, res) {
     res.status(401).json({ status: false, message: "Password is required" });
   } else {
     user.findOne({ email: email }).exec(function(err, user) {
-      console.log(user);
       if(err) {
         res.status(500).json({ status: false, message: "Database error occurred" });
       } else {
@@ -49,14 +48,14 @@ function login(req, res) {
             if (isMatch) {
               // From now on we'll identify the user by the id and the id is the only 
               // personalized value that goes into our token
-              var payload = {id: user.id};
-              var token = jwt.sign(payload, jwtOptions.secretOrKey);
-              var session = new userSession();
-              session.token = token;
-              session.user = user.id;
-              session.save();
-
-              res.status(200).json({ status: true, message: "login successful", token: token });
+              userSession.findOne({ user: user.id, expires_on: { $gt: Date.now() } }).then(function(session) {
+                if(session) {
+                  res.status(200).json({ status: true, message: "Login successful", token: session.token });
+                } else {
+                  var token = createSession(user);
+                  res.status(200).json({ status: true, message: "Login successful", token: token });
+                }
+              });
             } else {
               res.status(401).json({ status: false, message: "Password did not match" });
             }
@@ -69,14 +68,22 @@ function login(req, res) {
   }
 }
 
+function createSession(user) {
+  var payload = {id: user.id};
+  var token = jwt.sign(payload, jwtOptions.secretOrKey);
+  var session = new userSession();
+  session.token = token;
+  session.user = user.id;
+  session.expires_on = Date.now() + 3600000; // 1hour;
+  session.save();
+
+  return token;
+}
+
 // User's Registration function
 function register(req, res) {
   return user.create(req.body).then(function(user) {
-    req.body = {
-      'email': user.email,
-      'password':req.body.password,
-    };
-    // Login with the registered Credentials.
-    login(req, res);
+    var token = createSession(user);
+    res.status(200).json({ status: true, message: "Login successful", token: token });
   }).catch(utilityFunc.handleError(res));
 }

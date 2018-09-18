@@ -7,7 +7,8 @@ var UserSessionSchema   = new mongoose.Schema({
   token: { type: String, required: true, unique: true },
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   status: { type: Boolean },
-  created_on: { type: Date }
+  created_on: { type: Date },
+  expires_on: { type: Date }
 });
 
 // Saving time of session creation
