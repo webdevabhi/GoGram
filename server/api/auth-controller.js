@@ -13,11 +13,11 @@
 const utilityFunc = requireInternal("utility");
 const user = requireInternal("models.user-model");
 
-exports.index = index;
+exports.register = register;
 
-// Gets a list of Users
-function index(req, res) {
-  return user
-    .find({}, { full_name: 1, mobile: 1, email: 1 }).sort({ _id: -1 })
-    .exec().then(utilityFunc.respondWithResult(res)).catch(utilityFunc.handleError(res));
+// User's Registration function
+function register(req, res) {
+  return user.create(req.body).then(
+    utilityFunc.respondWithResult(res, 201)
+  ).catch(utilityFunc.handleError(res));
 }
