@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 
 // Define our user-session schema
 var UserSessionSchema   = new mongoose.Schema({
-  _id: { type: String, required: true, unique: true },
+  token: { type: String, required: true, unique: true },
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   status: { type: Boolean },
   created_on: { type: Date }

@@ -11,7 +11,7 @@
 "use strict";
 
 const utilityFunc = requireInternal("utility");
-const user = requireInternal("models.user-model");
+const user = requireInternal("models.user_model");
 
 exports.index = index;
 
