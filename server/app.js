@@ -1,5 +1,14 @@
 "use strict";
+
+var mongoose = require("mongoose");
 var environment = requireInternal("config.environment");
+
+// Connect to MongoDB
+mongoose.connect(environment.mongo.uri);
+mongoose.connection.on('error', function(err) {
+  console.error("MongoDB connection error: " + err);
+  process.exit(-1);
+})
 
 // Setup server
 var express = require("express");
