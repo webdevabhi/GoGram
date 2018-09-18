@@ -14,6 +14,7 @@ mongoose.connection.on('error', function(err) {
 var express = require("express");
 var app = express();
 
+require('./express_middlewares')(app);
 require("./routes")(app);
 
 // Start Server

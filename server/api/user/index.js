@@ -1,11 +1,11 @@
 "use strict";
 
 var express = require("express");
+var userController = require("./user.controller");
 
 var router = new express.Router();
 
-router.get("/", function(req, res) {
-  res.send({status: 'ok', router: 'User/index'});
-});
+router.get("/", userController.index);
+router.post("/", userController.create);
 
 module.exports = router;
