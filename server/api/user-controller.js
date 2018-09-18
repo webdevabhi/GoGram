@@ -10,6 +10,9 @@
 
 "use strict";
 
+const utilityFunc = requireInternal("utility");
+const user = requireInternal("models.user-model");
+
 exports.index = index;
 exports.create = create;
 
@@ -20,6 +23,5 @@ function index(req, res) {
 
 // Save a user's entry
 function create(req, res) {
-  console.log(req.body);
-  res.send({status: 'ok', data: req.body});
+  return user.create(req.body).then(utilityFunc.respondWithResult(res, 201)).catch(utilityFunc.handleError(res));
 }
