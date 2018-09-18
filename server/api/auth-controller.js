@@ -13,19 +13,15 @@
 var utilityFunc = requireInternal("utility");
 var user = requireInternal("models.user_model");
 var userSession = requireInternal("models.user_session");
-
 var jwt = require('jsonwebtoken');
-var passport = require("passport");
-var passportJWT = require("passport-jwt");
-var ExtractJwt = passportJWT.ExtractJwt;
-var JwtStrategy = passportJWT.Strategy;
+var environment = requireInternal("config.environment");
 
 exports.login = login;
 exports.register = register;
+exports.validateUser = validateUser;
 
 var jwtOptions = {
-  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: 'eejrd'
+  secretOrKey: environment.jwtKey
 };
 
 function login(req, res) {
@@ -86,4 +82,9 @@ function register(req, res) {
     var token = createSession(user);
     res.status(200).json({ status: true, message: "Login successful", token: token });
   }).catch(utilityFunc.handleError(res));
+}
+
+function validateUser(req, res, next) {
+  console.log(jwtOptions.jwtFromRequest);
+  return next();
 }
