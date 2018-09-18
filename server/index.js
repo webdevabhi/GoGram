@@ -1,12 +1,17 @@
-var express = require('express');
-var app = express();
+"use strict";
+var appBasePath = __dirname;
 
-var environment = require("./config/environment");
+global.requireInternal = global.requireInternal || function(modelModuleName) {
+  modelModuleName = modelModuleName.split('.');
+  if (modelModuleName.lenght > 5) {
+    throw new Error("Application has limited to maximum 5 level of nested directory");
+  }
 
-app.get('/', function(req, res) {
-  res.send({status: 'ok'});
-})
+  modelModuleName = modelModuleName.join("/");
+  return require(appBasePath + "/" + modelModuleName);
+}
 
-app.listen(environment.port, () => {
-  console.log("Listening on port " + environment.port);
-});
+var env = process.env.NODE_ENV ? process.env.NODE_ENV : "development";
+
+// export application;
+exports = module.exports = require("./app");
