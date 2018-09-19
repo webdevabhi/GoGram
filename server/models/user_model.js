@@ -8,6 +8,7 @@ var UserSchema = new mongoose.Schema({
   email: { type: String, unique: true, required: true },
   mobile: { type: Number, minlength: 10, maxlength: 10 },
   password: { type: String, required: true },
+  profile_pic: { type: String, required: true },
   salt: String,
   role: { type: String, default: 'user' },
   provider: { type: String, default: "local" },

@@ -14,10 +14,17 @@ const utilityFunc = requireInternal("utility");
 const user = requireInternal("models.user_model");
 
 exports.index = index;
+exports.me = me;
 
 // Gets a list of Users
 function index(req, res) {
   return user
     .find({}, { full_name: 1, mobile: 1, email: 1 }).sort({ _id: -1 })
     .exec().then(utilityFunc.respondWithResult(res)).catch(utilityFunc.handleError(res));
+}
+
+function me(req, res) {
+  user.findById(req.userId).then(function(users) {
+    console.log(users);
+  })
 }
