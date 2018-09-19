@@ -37,6 +37,6 @@ function create(req, res) {
 
 function deletePost(req, res){
   post.remove({user_id: req.userId, _id: req.body.post_id}).then(function(response) {
-    if(response) return res.status(200).json({status:true, message: "Post deleted successfully"})
+    if(response) return res.status(200).json({ status:true, message: "Post deleted successfully" })
   })
 }

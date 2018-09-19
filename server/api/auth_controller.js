@@ -58,7 +58,7 @@ function register(req, res) {
   reqData.profile_pic = 'http://' + req.headers.host + '/uploads/images/' + req.file.filename;
   return user.create(reqData).then(function(user) {
     var token = createSession(user);
-    res.status(200).json({ status: true, message: "Login successful", token: token });
+    res.status(201).json({ status: true, message: "Registration successful", token: token });
   }).catch(utilityFunc.handleError(res));
 }
 
@@ -77,7 +77,13 @@ function createSession(user) {
  * Expiry of token is set to 1 hour
  */
 function forgotPassword(req, res) {
-  user.findOne(req.body).then(function(user) {
+  var email = "";
+  if(req.body.email) email = req.body.email;
+  if(email.length < 1) {
+    return res.status(400).json({ status: false, message: "Email is required" });
+  }
+
+  user.findOne({email: email}).then(function(user) {
     if (!user) {
       return res.status(200).json({ status: false, message: "No account with that email address exists." });
     }
@@ -103,13 +109,19 @@ function forgotPassword(req, res) {
  * and allow user to save encrypted password and return to log in.
  */
 function resetPassword(req, res) {
+  var password = "";
+  if(req.body.password) password = req.body.password;
+  if(password.length < 1) {
+    return res.status(400).json({ status: false, message: "Password is required" });
+  }
+
   user.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } })
   .then(function(user) {
     if (!user) {
-      return res.status(200).json({ status:false, message: "Password reset token is invalid or has expired" });
+      return res.status(400).json({ status:false, message: "Password reset token is invalid or has expired" });
     }
 
-    user.password = req.body.password;
+    user.password = password;
     user.resetPasswordToken = undefined;
     user.resetPasswordExpires = undefined;
 
