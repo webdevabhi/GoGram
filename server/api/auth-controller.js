@@ -12,18 +12,18 @@
 
 var utilityFunc = requireInternal("utility");
 var user = requireInternal("models.user_model");
-var userSession = requireInternal("models.user_session");
 var jwt = require('jsonwebtoken');
 var environment = requireInternal("config.environment");
 
 exports.login = login;
 exports.register = register;
-exports.validateUser = validateUser;
+exports.logout = logout;
 
 var jwtOptions = {
   secretOrKey: environment.jwtKey
 };
 
+// User's Login
 function login(req, res) {
   var email = "";
   var password = "";
@@ -44,14 +44,8 @@ function login(req, res) {
             if (isMatch) {
               // From now on we'll identify the user by the id and the id is the only 
               // personalized value that goes into our token
-              userSession.findOne({ user: user.id, expires_on: { $gt: Date.now() } }).then(function(session) {
-                if(session) {
-                  res.status(200).json({ status: true, message: "Login successful", token: session.token });
-                } else {
-                  var token = createSession(user);
-                  res.status(200).json({ status: true, message: "Login successful", token: token });
-                }
-              });
+              var token = createSession(user);
+              res.status(200).json({ status: true, message: "Login successful", token: token });
             } else {
               res.status(401).json({ status: false, message: "Password did not match" });
             }
@@ -64,16 +58,14 @@ function login(req, res) {
   }
 }
 
+// After User's login create a JWT and return the token.
 function createSession(user) {
   var payload = {id: user.id};
-  var token = jwt.sign(payload, jwtOptions.secretOrKey);
-  var session = new userSession();
-  session.token = token;
-  session.user = user.id;
-  session.expires_on = Date.now() + 3600000; // 1hour;
-  session.save();
+  var token = jwt.sign(payload, jwtOptions.secretOrKey, {
+    expiresIn: '1m' // expires in 24 hours
+  });
 
-  return token;
+  return 'Bearer ' +  token;
 }
 
 // User's Registration function
@@ -84,7 +76,16 @@ function register(req, res) {
   }).catch(utilityFunc.handleError(res));
 }
 
-function validateUser(req, res, next) {
-  console.log(jwtOptions.jwtFromRequest);
-  return next();
+
+/* 
+ * The logout endpoint is not needed. 
+ * The act of logging out can solely be done through the client side.
+ * A token is usually kept in a cookie or the browser’s localstorage.
+ * Logging out is as simple as destroying the token on the client. 
+ * This /logout endpoint is created to logically depict what happens when you log out. 
+ * The token gets set to null
+ */
+function logout(req, res) {
+  console.log(req.get('Authorization'));
+  res.status(200).json({ status: true, message: "Logged out successfuly" });
 }

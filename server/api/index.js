@@ -10,6 +10,7 @@ var router = new express.Router();
 // User's Auth Api Routes
 router.post("/register", authController.register);
 router.post("/login", authController.login);
+router.get("/logout", authController.logout);
 
 // User Api Routes
 router.get("/users", passport.authenticate('jwt', { session: false }), userController.index);
