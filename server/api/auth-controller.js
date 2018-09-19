@@ -18,6 +18,7 @@ var environment = requireInternal("config.environment");
 exports.login = login;
 exports.register = register;
 exports.logout = logout;
+exports.verifyToken = verifyToken;
 
 var jwtOptions = {
   secretOrKey: environment.jwtKey
@@ -62,10 +63,10 @@ function login(req, res) {
 function createSession(user) {
   var payload = {id: user.id};
   var token = jwt.sign(payload, jwtOptions.secretOrKey, {
-    expiresIn: '1m' // expires in 24 hours
+    expiresIn: '1h' // expires in 24 hours
   });
 
-  return 'Bearer ' +  token;
+  return token;
 }
 
 // User's Registration function
@@ -88,4 +89,21 @@ function register(req, res) {
 function logout(req, res) {
   console.log(req.get('Authorization'));
   res.status(200).json({ status: true, message: "Logged out successfuly" });
+}
+
+function verifyToken(req, res, next) {
+  var token = req.get('Authorization');
+
+  if (!token)
+    return res.status(403).send({ status: false, auth: false, message: 'No token provided.' });
+
+  jwt.verify(token, environment.jwtKey, function(err, decoded) {
+    if (err) {
+      console.log(err);
+      return res.status(500).send({ status: false, auth: false, message: 'Failed to authenticate token.' });
+    }
+      // if everything good, save to request for use in other routes
+      req.userId = decoded.id;
+      next();
+  });
 }

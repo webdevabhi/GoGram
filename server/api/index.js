@@ -13,6 +13,6 @@ router.post("/login", authController.login);
 router.get("/logout", authController.logout);
 
 // User Api Routes
-router.get("/users", passport.authenticate('jwt', { session: false }), userController.index);
+router.get("/users", authController.verifyToken, userController.index);
 
 module.exports = router;
