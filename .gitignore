@@ -1,3 +1,3 @@
 /node_modules
 /server/config/environment.js
-/server/uploads
+/server/uploads/images/*
