@@ -13,7 +13,9 @@ function create(req, res) {
     if(postCommentRes) {
       return res.status(500).json({ status: false, message: "Already Commented on the post" });
     } else {
-      return PostComment.create(reqData).then(utilityFunc.respondWithResult(res, 201)).catch(utilityFunc.handleError(res));
+      return PostComment.create(reqData).then(function(commentResponse) {
+        res.status(200).json({ status: true, message: "Comment Posted successfully" });
+      }).catch(utilityFunc.handleError(res));
     }
   })
 }
