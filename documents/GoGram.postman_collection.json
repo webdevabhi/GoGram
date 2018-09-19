@@ -1,0 +1,493 @@
+{
+	"info": {
+		"_postman_id": "75f99396-86b4-4673-8145-b4213ba7293a",
+		"name": "GoGram",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GoGram register",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "multipart/form-data"
+					},
+					{
+						"key": "",
+						"value": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "full_name",
+							"value": "Abhishek",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "abhishek.patel@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "mobile",
+							"value": "8602670196",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "banduk",
+							"type": "text"
+						},
+						{
+							"key": "profile_pic",
+							"type": "file"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"register"
+					]
+				},
+				"description": "Sign Up api for go_gram"
+			},
+			"response": []
+		},
+		{
+			"name": "GoGram Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"abhishek@gmail.com\",\n\t\"password\": \"banduk\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"login"
+					]
+				},
+				"description": "Login api for go_gram"
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViYTBjOGE2NjdlYzNhMTBhNGMyZjQ2NiIsImlhdCI6MTUzNzI5MzI3OH0.K2H4o5fTOmJlRcnlN_whrxeMqxvq2jCUxhMgcNwyTOY"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:5000/api/logout",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"logout"
+					]
+				},
+				"description": "Logout user from application.\nDestroy Json Web Token from client side."
+			},
+			"response": []
+		},
+		{
+			"name": "User's Forgot Password",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"abhishek.patel185@gmail.com\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/forgot-password",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"forgot-password"
+					]
+				},
+				"description": "Api to get url to reset password."
+			},
+			"response": []
+		},
+		{
+			"name": "User's Profile",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViYTIyMDEzNGU0Njk4MmQzZTUxMzU1NSIsImlhdCI6MTUzNzM1MTY5OSwiZXhwIjoxNTM3MzU1Mjk5fQ.EnjhJMbgi8yiKZK0XraDyzPCxf3m0BKup7QzRJiputE"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"password\" : \"zxcvbnm\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/me",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"me"
+					]
+				},
+				"description": "Get User's own details"
+			},
+			"response": []
+		},
+		{
+			"name": "Update User's Profile",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViYTIzNmE4N2I4Y2U0MzJmNTZjMzdhZCIsImlhdCI6MTUzNzM3MTczNiwiZXhwIjoxNTM3Mzc1MzM2fQ.JdtM4sruPGyTtuBr37u2QDoOa8EySh-Xu64Tm9uB8Oc"
+					},
+					{
+						"key": "",
+						"value": "",
+						"disabled": true
+					},
+					{
+						"key": "",
+						"value": "",
+						"disabled": true
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "full_name",
+							"value": "Raaaaj rahul",
+							"type": "text"
+						},
+						{
+							"key": "profile_pic",
+							"value": "",
+							"type": "file"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/user/update",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"user",
+						"update"
+					]
+				},
+				"description": "Update User's Profile"
+			},
+			"response": []
+		},
+		{
+			"name": "Create Post",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViYTIzNmE4N2I4Y2U0MzJmNTZjMzdhZCIsImlhdCI6MTUzNzM3MjM5NCwiZXhwIjoxNTM3Mzc1OTk0fQ.McC84EwDXfE6lkchf3dgToKMe1tu3NMePP7AShqpO6U"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "post_image",
+							"type": "file"
+						},
+						{
+							"key": "post_desc",
+							"value": "This is my first post #first_pos",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/post/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"post",
+						"create"
+					]
+				},
+				"description": "Api to create post"
+			},
+			"response": []
+		},
+		{
+			"name": "Comment On Post",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViYTIzNmE4N2I4Y2U0MzJmNTZjMzdhZCIsImlhdCI6MTUzNzM1NzYzNywiZXhwIjoxNTM3MzYxMjM3fQ.pJS_vjTCuPj_wQY9hSnkh5jpQxEdZM28cyb8D5xGAOw"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"post_id\": \"5ba236807b8ce432f56c37ab\",\n\t\"comment\": \"Looks sexy\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/post/comment",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"post",
+						"comment"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Like Post",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViYTIzNmE4N2I4Y2U0MzJmNTZjMzdhZCIsImlhdCI6MTUzNzM3MjM5NCwiZXhwIjoxNTM3Mzc1OTk0fQ.McC84EwDXfE6lkchf3dgToKMe1tu3NMePP7AShqpO6U"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"post_id\": \"5ba2367b7b8ce432f56c37aa\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/post/like",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"post",
+						"like"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Post",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViYTIzNmE4N2I4Y2U0MzJmNTZjMzdhZCIsImlhdCI6MTUzNzM1OTc1MiwiZXhwIjoxNTM3MzYzMzUyfQ.MMolqfeZrNFrDZET-66PV3dUq8Q5APCqb2Albl-LdD4"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"post_id\": \"5ba23fac9d6b5e33f4bedfea\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/post/delete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"post",
+						"delete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User's Reset Password",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"password\": \"asdfghjkl\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/reset/848afae59f5af40b9c4bde1037af1adb594949f0",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"reset",
+						"848afae59f5af40b9c4bde1037af1adb594949f0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User's View Profile",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViYTIzNmE4N2I4Y2U0MzJmNTZjMzdhZCIsImlhdCI6MTUzNzM3MTczNiwiZXhwIjoxNTM3Mzc1MzM2fQ.JdtM4sruPGyTtuBr37u2QDoOa8EySh-Xu64Tm9uB8Oc"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:5000/api/me",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User's Performance",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViYTIzNmE4N2I4Y2U0MzJmNTZjMzdhZCIsImlhdCI6MTUzNzM3MjM5NCwiZXhwIjoxNTM3Mzc1OTk0fQ.McC84EwDXfE6lkchf3dgToKMe1tu3NMePP7AShqpO6U"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:5000/api/me/report",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"me",
+						"report"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Posts",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViYTIzNmE4N2I4Y2U0MzJmNTZjMzdhZCIsImlhdCI6MTUzNzM3NTM5NywiZXhwIjoxNTM3Mzc4OTk3fQ.C7qstiwZ6Yqf6qr0XQTJX2xdEOVt3arSJmd-1pcssL4"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:5000/api/posts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"posts"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -26,6 +26,7 @@ function me(req, res) {
 // Update user's field.
 function update(req, res) {
   var reqData = req.body;
+  reqData.update_at = new Date;
   if(req.file) 
     reqData.profile_pic = 'http://' + req.headers.host + '/uploads/images/' + req.file.filename;
   return user.findById(req.userId).exec()

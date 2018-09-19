@@ -28,7 +28,7 @@ router.post("/forgot-password", authController.forgotPassword);
 router.post("/reset/:token", authController.resetPassword);
 
 // User Api Routes
-router.get("/users", authController.verifyToken, userController.index);
+// router.get("/users", authController.verifyToken, userController.index);
 router.get("/me", authController.verifyToken, userController.me);
 router.put("/user/update", authController.verifyToken, upload.single('profile_pic'), userController.update);
 router.get("/me/report", authController.verifyToken, userController.report)

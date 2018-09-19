@@ -8,7 +8,6 @@ var PostSchema = new mongoose.Schema({
   user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   post_network_ip: { type: String, required: true },
   created_at: { type: Date, default: Date.now },
-  update_at: { type: Date, default: Date.now }
 })
 
 // Export the Mongoose model

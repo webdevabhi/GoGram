@@ -1,3 +1,4 @@
 /node_modules
 /server/config/environment.js
 /server/uploads/images/*
+*.DS_Store
