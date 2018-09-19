@@ -1,13 +1,3 @@
-/**
- * Using Rails-like standard naming convention for endpoints.
- * GET     /api/users              ->  index
- * POST    /api/users              ->  create
- * GET     /api/users/:id          ->  show
- * PUT     /api/users/:id          ->  upsert
- * PATCH   /api/users/:id          ->  patch
- * DELETE  /api/users/:id          ->  destroy
- */
-
 "use strict";
 
 var utilityFunc = requireInternal("utility");
