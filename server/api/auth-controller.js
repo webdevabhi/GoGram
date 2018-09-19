@@ -13,10 +13,13 @@
 var utilityFunc = requireInternal("utility");
 var user = requireInternal("models.user_model");
 var jwt = require('jsonwebtoken');
+var crypto = require('crypto');
 var environment = requireInternal("config.environment");
 
 exports.login = login;
 exports.register = register;
+exports.forgotPassword = forgotPassword;
+exports.resetPassword = resetPassword;
 exports.logout = logout;
 exports.verifyToken = verifyToken;
 
@@ -59,6 +62,14 @@ function login(req, res) {
   }
 }
 
+// User's Registration function
+function register(req, res) {
+  return user.create(req.body).then(function(user) {
+    var token = createSession(user);
+    res.status(200).json({ status: true, message: "Login successful", token: token });
+  }).catch(utilityFunc.handleError(res));
+}
+
 // After User's login create a JWT and return the token.
 function createSession(user) {
   var payload = {id: user.id};
@@ -69,14 +80,54 @@ function createSession(user) {
   return token;
 }
 
-// User's Registration function
-function register(req, res) {
-  return user.create(req.body).then(function(user) {
-    var token = createSession(user);
-    res.status(200).json({ status: true, message: "Login successful", token: token });
-  }).catch(utilityFunc.handleError(res));
+/* 
+ * Sends link to reset password with reset password token
+ * Expiry of token is set to 1 hour
+ */
+function forgotPassword(req, res) {
+  console.log(req.body);
+  user.findOne(req.body).then(function(user) {
+    if (!user) {
+      return res.status(200).json({ status: false, message: "No account with that email address exists." });
+    }
+
+    crypto.randomBytes(20, function(err, buf) {
+      var passwordToken = buf.toString('hex');
+      console.log(user);
+      user.resetPasswordToken = passwordToken;
+      user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+
+      user.save(function(err, success) {
+        return res.status(200).json({ 
+          status: true, 
+          link: 'http://' + req.headers.host + '/api/reset/' + passwordToken,
+          message: 'Open Link to reset your password'
+        })
+      });
+    });
+  })
 }
 
+/* 
+ * Reset Password by checking resetPasswordToken and token expiration time from db
+ * and allow user to save encrypted password and return to log in.
+ */
+function resetPassword(req, res) {
+  user.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } })
+  .then(function(user) {
+    if (!user) {
+      return res.status(200).json({ status:false, message: "Password reset token is invalid or has expired" });
+    }
+
+    user.password = req.body.password;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpires = undefined;
+
+    user.save(function(err) {
+      return res.status(200).json({status: true, message: "Password reset successfully, Please login to continue" });
+    });
+  })
+}
 
 /* 
  * The logout endpoint is not needed. 
@@ -88,9 +139,15 @@ function register(req, res) {
  */
 function logout(req, res) {
   console.log(req.get('Authorization'));
-  res.status(200).json({ status: true, message: "Logged out successfuly" });
+  res.status(200).json({ status: true, message: "Logged out successfully" });
 }
 
+/* 
+ * Get the token from request header Authorization.
+ * Validate using JWT and get the userid from the token
+ * if err, return with 403, Unauthorized
+ * if success, next().
+ */
 function verifyToken(req, res, next) {
   var token = req.get('Authorization');
 
@@ -98,10 +155,9 @@ function verifyToken(req, res, next) {
     return res.status(403).send({ status: false, auth: false, message: 'No token provided.' });
 
   jwt.verify(token, environment.jwtKey, function(err, decoded) {
-    if (err) {
-      console.log(err);
-      return res.status(500).send({ status: false, auth: false, message: 'Failed to authenticate token.' });
-    }
+    if (err) 
+      return res.status(403).send({ status: false, auth: false, message: 'Failed to authenticate token.' });
+
       // if everything good, save to request for use in other routes
       req.userId = decoded.id;
       next();
