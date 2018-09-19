@@ -10,7 +10,6 @@ var storage = multer.diskStorage({
     cb(null, 'server/uploads/images')
   },
   filename: (req, file, cb) => {
-    console.log(file);
     cb(null, file.fieldname + '-' + Date.now() + file.originalname)
   }
 });
@@ -28,5 +27,6 @@ router.post("/reset/:token", authController.resetPassword);
 // User Api Routes
 router.get("/users", authController.verifyToken, userController.index);
 router.get("/me", authController.verifyToken, userController.me);
+router.put("/user/update", authController.verifyToken, upload.single('profile_pic'), userController.update);
 
 module.exports = router;

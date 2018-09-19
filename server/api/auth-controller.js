@@ -87,7 +87,6 @@ function createSession(user) {
  * Expiry of token is set to 1 hour
  */
 function forgotPassword(req, res) {
-  console.log(req.body);
   user.findOne(req.body).then(function(user) {
     if (!user) {
       return res.status(200).json({ status: false, message: "No account with that email address exists." });
@@ -95,7 +94,6 @@ function forgotPassword(req, res) {
 
     crypto.randomBytes(20, function(err, buf) {
       var passwordToken = buf.toString('hex');
-      console.log(user);
       user.resetPasswordToken = passwordToken;
       user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
 
@@ -140,7 +138,6 @@ function resetPassword(req, res) {
  * The token gets set to null
  */
 function logout(req, res) {
-  console.log(req.get('Authorization'));
   res.status(200).json({ status: true, message: "Logged out successfully" });
 }
 

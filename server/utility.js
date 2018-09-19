@@ -19,5 +19,14 @@ module.exports = {
     return function(err) {
       res.status(statusCode).send(err);
     };
+  },
+
+  saveUpdates: function(updates) {
+    return function (entity) {
+      var updated = Object.assign(entity, updates);
+      return updated.save().then(function (updated) {
+        return updated;
+      });
+    };
   }
 };
