@@ -65,7 +65,7 @@ function login(req, res) {
 // User's Registration function
 function register(req, res) {
   var reqData = req.body;
-  reqData.profile_pic = '/uploads/images/' + req.file.filename;
+  reqData.profile_pic = 'http://' + req.headers.host + '/uploads/images/' + req.file.filename;
   return user.create(reqData).then(function(user) {
     var token = createSession(user);
     res.status(200).json({ status: true, message: "Login successful", token: token });

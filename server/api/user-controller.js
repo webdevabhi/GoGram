@@ -24,7 +24,7 @@ function index(req, res) {
 }
 
 function me(req, res) {
-  user.findById(req.userId).then(function(users) {
-    console.log(users);
-  })
+  return user
+    .findById(req.userId, { full_name: 1, email: 1, mobile: 1, profile_pic: 1 })
+    .exec().then(utilityFunc.respondWithResult(res)).catch(utilityFunc.handleError(res));
 }
