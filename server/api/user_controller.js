@@ -56,5 +56,5 @@ function report(req, res) {
       total_likes: response[0].postlikes.length,
     }
     res.status(200).json(responseData);
-  });
+  }).catch(utilityFunc.handleError(response));
 }

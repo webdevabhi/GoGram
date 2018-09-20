@@ -15,7 +15,7 @@ function create(req, res) {
     } else {
       return PostComment.create(reqData).then(function(commentResponse) {
         res.status(200).json({ status: true, message: "Comment Posted successfully" });
-      }).catch(utilityFunc.handleError(res));
+      }).catch(utilityFunc.handleError(commentResponse));
     }
-  })
+  }).catch(utilityFunc.handleError(postCommentRes));
 }

@@ -59,7 +59,7 @@ function register(req, res) {
   return user.create(reqData).then(function(user) {
     var token = createSession(user);
     res.status(201).json({ status: true, message: "Registration successful", token: token });
-  }).catch(utilityFunc.handleError(res));
+  }).catch(utilityFunc.handleError(user));
 }
 
 // After User's login create a JWT and return the token.
@@ -101,7 +101,7 @@ function forgotPassword(req, res) {
         })
       });
     });
-  })
+  }).catch(utilityFunc.handleError(user));
 }
 
 /* 

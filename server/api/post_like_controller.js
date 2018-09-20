@@ -17,5 +17,5 @@ function create(req, res) {
     } else {
       return res.status(200).json({ status: true, message: "Post Like successfully" });
     }
-  })
+  }).catch(utilityFunc.handleError(postLikeRes));
 }
