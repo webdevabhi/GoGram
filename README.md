@@ -1,3 +1,10 @@
+# GoGram
+
+Complete node.js application with authentication using json web tokens.
+
+### Version
+1.0.0
+
 Below you will find some information on how to perform common tasks.<br>
 
 To run the Application follow the steps below:
@@ -61,12 +68,21 @@ module.exports = {
 
 In the project directory, you can run:
 
-### npm start
+```sh
+$ npm install
+```
+
+It will install the dependecies required to run the project
+
+```sh
+$ npm start
+```
 
 It will create a express server with post `5000`.
 
-
-### npm run dev
+```sh
+$ npm run dev
+```
 
 It will create a express server with post `5000`.
 whenever changes detected it automatically restart the server.
